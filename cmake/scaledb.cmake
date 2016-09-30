@@ -13,8 +13,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
-
-
 SET(PLUGIN_SOURCES
     interface/mysql/incl/ha_scaledb.h
     interface/mysql/incl/mysql_foreign_key.h
@@ -116,7 +114,12 @@ IF(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         SET(MYSQL_SERVICES_LIB ${LIB_MYSQL_SERVICES})
         MESSAGE( STATUS "Found MYSQL_SERVICES_LIB " ${MYSQL_SERVICES_LIB})
         TARGET_LINK_LIBRARIES(scaledb ${MYSQL_SERVICES_LIB} )
-    
+
+        FIND_LIBRARY( LIBSCALEDB_UDE NAMES scaledb_ude )
+        SET(SCALEDB_UDE_LIB ${LIBSCALEDB_UDE})
+        MESSAGE( STATUS "Found SCALEDB_UDE_LIB " ${SCALEDB_UDE_LIB})
+        TARGET_LINK_LIBRARIES(scaledb ${SCALEDB_UDE_LIB} )
+ 
 	    EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/mysql_includes  RESULT_VARIABLE RESVAR)
 	    EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E copy_directory ${MY_INCLUDE_DIR} ${CMAKE_BINARY_DIR}/mysql_includes RESULT_VARIABLE RESVAR)
 	    EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/mysql_includes/wsrep RESULT_VARIABLE RESVAR)
